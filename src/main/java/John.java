@@ -2,12 +2,6 @@ import java.util.Scanner;
 
 public class John {
     public static void main(String[] args) {
-        String logo = "     _       _           \n"
-                + "    | | ___ | |__  _ __  \n"
-                + " _  | |/ _ \\| '_ \\| '_ \\ \n"
-                + "| |_| | (_) | | | | | | |\n"
-                + " \\___/ \\___/|_| |_|_| |_|\n";
-        
         Task[] tasks = new Task[100];
         int taskCount = 0;
         
