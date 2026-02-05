@@ -8,6 +8,9 @@ public class John {
                 + "| |_| | (_) | | | | | | |\n"
                 + " \\___/ \\___/|_| |_|_| |_|\n";
         
+        String[] tasks = new String[100];
+        int taskCount = 0;
+        
         System.out.println("____________________________________________________________");
         System.out.println(" Hello! I'm John");
         System.out.println(" What can I do for you?");
@@ -18,7 +21,17 @@ public class John {
         
         while (!input.equals("bye")) {
             System.out.println("____________________________________________________________");
-            System.out.println(" " + input);
+            
+            if (input.equals("list")) {
+                for (int i = 0; i < taskCount; i++) {
+                    System.out.println(" " + (i + 1) + ". " + tasks[i]);
+                }
+            } else {
+                tasks[taskCount] = input;
+                taskCount++;
+                System.out.println(" added: " + input);
+            }
+            
             System.out.println("____________________________________________________________");
             input = scanner.nextLine();
         }
