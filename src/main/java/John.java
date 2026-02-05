@@ -6,7 +6,7 @@ public class John {
         int taskCount = 0;
         
         System.out.println("____________________________________________________________");
-        System.out.println(" Hello! I'm John");
+        System.out.println(" Good evening. I'm John");
         System.out.println(" What can I do for you?");
         System.out.println("____________________________________________________________");
         
@@ -31,10 +31,37 @@ public class John {
                 tasks[taskIndex].markAsNotDone();
                 System.out.println(" OK, I've marked this task as not done yet:");
                 System.out.println("   " + tasks[taskIndex]);
-            } else {
-                tasks[taskCount] = new Task(input);
+            } else if (input.startsWith("todo ")) {
+                String description = input.substring(5);
+                tasks[taskCount] = new Todo(description);
                 taskCount++;
-                System.out.println(" added: " + input);
+                System.out.println(" Got it. I've added this task:");
+                System.out.println("   " + tasks[taskCount - 1]);
+                System.out.println(" Now you have " + taskCount + " tasks in the list.");
+            } else if (input.startsWith("deadline ")) {
+                String details = input.substring(9);
+                int byIndex = details.indexOf(" /by ");
+                String description = details.substring(0, byIndex);
+                String by = details.substring(byIndex + 5);
+                tasks[taskCount] = new Deadline(description, by);
+                taskCount++;
+                System.out.println(" Got it. I've added this task:");
+                System.out.println("   " + tasks[taskCount - 1]);
+                System.out.println(" Now you have " + taskCount + " tasks in the list.");
+            } else if (input.startsWith("event ")) {
+                String details = input.substring(6);
+                int fromIndex = details.indexOf(" /from ");
+                int toIndex = details.indexOf(" /to ");
+                String description = details.substring(0, fromIndex);
+                String from = details.substring(fromIndex + 7, toIndex);
+                String to = details.substring(toIndex + 5);
+                tasks[taskCount] = new Event(description, from, to);
+                taskCount++;
+                System.out.println(" Got it. I've added this task:");
+                System.out.println("   " + tasks[taskCount - 1]);
+                System.out.println(" Now you have " + taskCount + " tasks in the list.");
+            } else {
+                System.out.println(" I don't understand that command.");
             }
             
             System.out.println("____________________________________________________________");
