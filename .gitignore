@@ -1,1 +1,4 @@
 *.class
+ACTUAL.TXT
+EXPECTED-UNIX.TXT
+bin/
