@@ -27,20 +27,26 @@ public class John {
     }
 
     private void handleCommand(String input) {
-        if (input.equals("list")) {
-            handleList();
-        } else if (input.startsWith("mark ")) {
-            handleMark(input);
-        } else if (input.startsWith("unmark ")) {
-            handleUnmark(input);
-        } else if (input.startsWith("todo ")) {
-            handleTodo(input);
-        } else if (input.startsWith("deadline ")) {
-            handleDeadline(input);
-        } else if (input.startsWith("event ")) {
-            handleEvent(input);
-        } else {
-            ui.showError("I don't understand that command.");
+        try {
+            if (input.equals("list")) {
+                handleList();
+            } else if (input.startsWith("mark")) {
+                handleMark(input);
+            } else if (input.startsWith("unmark")) {
+                handleUnmark(input);
+            } else if (input.startsWith("todo")) {
+                handleTodo(input);
+            } else if (input.startsWith("deadline")) {
+                handleDeadline(input);
+            } else if (input.startsWith("event")) {
+                handleEvent(input);
+            } else {
+                throw new JohnException("OOPS!!! I'm sorry, but I don't know what that means :-(");
+            }
+        } catch (JohnException e) {
+            ui.showError(e.getMessage());
+        } catch (IndexOutOfBoundsException e) {
+            ui.showError("OOPS!!! That task number doesn't exist.");
         }
     }
 
@@ -48,35 +54,35 @@ public class John {
         ui.showTaskList(tasks);
     }
 
-    private void handleMark(String input) {
+    private void handleMark(String input) throws JohnException {
         int taskIndex = Parser.getTaskIndex(input);
         Task task = tasks.getTask(taskIndex);
         task.markAsDone();
         ui.showTaskMarked(task);
     }
 
-    private void handleUnmark(String input) {
+    private void handleUnmark(String input) throws JohnException {
         int taskIndex = Parser.getTaskIndex(input);
         Task task = tasks.getTask(taskIndex);
         task.markAsNotDone();
         ui.showTaskUnmarked(task);
     }
 
-    private void handleTodo(String input) {
+    private void handleTodo(String input) throws JohnException {
         String description = Parser.getTodoDescription(input);
         Task task = new Todo(description);
         tasks.addTask(task);
         ui.showTaskAdded(task, tasks.getTaskCount());
     }
 
-    private void handleDeadline(String input) {
+    private void handleDeadline(String input) throws JohnException {
         String[] parts = Parser.parseDeadline(input);
         Task task = new Deadline(parts[0], parts[1]);
         tasks.addTask(task);
         ui.showTaskAdded(task, tasks.getTaskCount());
     }
 
-    private void handleEvent(String input) {
+    private void handleEvent(String input) throws JohnException {
         String[] parts = Parser.parseEvent(input);
         Task task = new Event(parts[0], parts[1], parts[2]);
         tasks.addTask(task);
