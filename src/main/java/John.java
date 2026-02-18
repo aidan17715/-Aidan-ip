@@ -34,6 +34,8 @@ public class John {
                 handleMark(input);
             } else if (input.startsWith("unmark")) {
                 handleUnmark(input);
+            } else if (input.startsWith("delete")) {
+                handleDelete(input);
             } else if (input.startsWith("todo")) {
                 handleTodo(input);
             } else if (input.startsWith("deadline")) {
@@ -66,6 +68,13 @@ public class John {
         Task task = tasks.getTask(taskIndex);
         task.markAsNotDone();
         ui.showTaskUnmarked(task);
+    }
+
+    private void handleDelete(String input) throws JohnException {
+        int taskIndex = Parser.getTaskIndex(input);
+        Task task = tasks.getTask(taskIndex);
+        tasks.deleteTask(taskIndex);
+        ui.showTaskDeleted(task, tasks.getTaskCount());
     }
 
     private void handleTodo(String input) throws JohnException {
