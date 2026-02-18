@@ -1,3 +1,5 @@
+import java.util.ArrayList;
+
 public class TaskList {
     private static final int MAX_TASKS = 100;
     private Task[] tasks;
@@ -6,6 +8,14 @@ public class TaskList {
     public TaskList() {
         this.tasks = new Task[MAX_TASKS];
         this.taskCount = 0;
+    }
+
+    public TaskList(ArrayList<Task> loadedTasks) {
+        this.tasks = new Task[MAX_TASKS];
+        this.taskCount = 0;
+        for (Task task : loadedTasks) {
+            this.tasks[taskCount++] = task;
+        }
     }
 
     public void addTask(Task task) {
@@ -21,7 +31,11 @@ public class TaskList {
         return taskCount;
     }
 
-    public Task[] getTasks() {
-        return tasks;
+    public ArrayList<Task> getTasks() {
+        ArrayList<Task> taskList = new ArrayList<>();
+        for (int i = 0; i < taskCount; i++) {
+            taskList.add(tasks[i]);
+        }
+        return taskList;
     }
 }
