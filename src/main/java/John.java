@@ -1,14 +1,24 @@
 import java.util.Scanner;
+import java.util.ArrayList;
 
 public class John {
     private TaskList tasks;
     private Ui ui;
     private Scanner scanner;
+    private Storage storage;
 
-    public John() {
-        this.tasks = new TaskList();
+    public John(String filePath) {
         this.ui = new Ui();
+        this.storage = new Storage(filePath);
         this.scanner = new Scanner(System.in);
+        
+        try {
+            ArrayList<Task> loadedTasks = storage.load();
+            this.tasks = new TaskList(loadedTasks);
+        } catch (JohnException e) {
+            ui.showError(e.getMessage());
+            this.tasks = new TaskList();
+        }
     }
 
     public void run() {
@@ -24,6 +34,14 @@ public class John {
         
         ui.showGoodbye();
         scanner.close();
+    }
+
+    private void saveTasksToFile() {
+        try {
+            storage.save(tasks.getTasks());
+        } catch (JohnException e) {
+            ui.showError(e.getMessage());
+        }
     }
 
     private void handleCommand(String input) {
@@ -61,6 +79,7 @@ public class John {
         Task task = tasks.getTask(taskIndex);
         task.markAsDone();
         ui.showTaskMarked(task);
+        saveTasksToFile();
     }
 
     private void handleUnmark(String input) throws JohnException {
@@ -68,6 +87,7 @@ public class John {
         Task task = tasks.getTask(taskIndex);
         task.markAsNotDone();
         ui.showTaskUnmarked(task);
+        saveTasksToFile();
     }
 
     private void handleDelete(String input) throws JohnException {
@@ -82,6 +102,7 @@ public class John {
         Task task = new Todo(description);
         tasks.addTask(task);
         ui.showTaskAdded(task, tasks.getTaskCount());
+        saveTasksToFile();
     }
 
     private void handleDeadline(String input) throws JohnException {
@@ -89,6 +110,7 @@ public class John {
         Task task = new Deadline(parts[0], parts[1]);
         tasks.addTask(task);
         ui.showTaskAdded(task, tasks.getTaskCount());
+        saveTasksToFile();
     }
 
     private void handleEvent(String input) throws JohnException {
@@ -96,9 +118,10 @@ public class John {
         Task task = new Event(parts[0], parts[1], parts[2]);
         tasks.addTask(task);
         ui.showTaskAdded(task, tasks.getTaskCount());
+        saveTasksToFile();
     }
 
     public static void main(String[] args) {
-        new John().run();
+        new John("./data/john.txt").run();
     }
 }
