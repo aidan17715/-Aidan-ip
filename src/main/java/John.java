@@ -95,7 +95,7 @@ public class John {
         Task task = tasks.getTask(taskIndex);
         tasks.deleteTask(taskIndex);
         ui.showTaskDeleted(task, tasks.getTaskCount());
-    }
+        saveTasksToFile();    }
 
     private void handleTodo(String input) throws JohnException {
         String description = Parser.getTodoDescription(input);
