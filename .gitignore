@@ -2,3 +2,5 @@
 ACTUAL.TXT
 EXPECTED-UNIX.TXT
 bin/
+*.jar
+out/
