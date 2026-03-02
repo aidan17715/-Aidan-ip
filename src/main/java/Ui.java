@@ -1,5 +1,16 @@
+import java.util.Scanner;
+
 public class Ui {
     private static final String LINE = "____________________________________________________________";
+    private Scanner scanner;
+    
+    public Ui() {
+        this.scanner = new Scanner(System.in);
+    }
+    
+    public String readCommand() {
+        return scanner.nextLine();
+    }
     
     public void showWelcome() {
         System.out.println(LINE);

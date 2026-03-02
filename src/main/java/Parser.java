@@ -1,14 +1,39 @@
 public class Parser {
     
-    public static String getCommand(String input) {
-        String[] parts = input.split(" ", 2);
-        return parts[0];
+    public static Command parse(String fullCommand) throws JohnException {
+        String input = fullCommand.trim();
+        
+        if (input.equals("list")) {
+            return new ListCommand();
+        } else if (input.equals("bye")) {
+            return new ExitCommand();
+        } else if (input.startsWith("mark ")) {
+            int taskIndex = getTaskIndex(input);
+            return new MarkCommand(taskIndex);
+        } else if (input.startsWith("unmark ")) {
+            int taskIndex = getTaskIndex(input);
+            return new UnmarkCommand(taskIndex);
+        } else if (input.startsWith("delete ")) {
+            int taskIndex = getTaskIndex(input);
+            return new DeleteCommand(taskIndex);
+        } else if (input.startsWith("todo")) {
+            String description = getTodoDescription(input);
+            return new TodoCommand(description);
+        } else if (input.startsWith("deadline")) {
+            String[] parts = parseDeadline(input);
+            return new DeadlineCommand(parts[0], parts[1]);
+        } else if (input.startsWith("event")) {
+            String[] parts = parseEvent(input);
+            return new EventCommand(parts[0], parts[1], parts[2]);
+        } else {
+            throw new JohnException("OOPS!!! I'm sorry, but I don't know what that means :-(");
+        }
     }
 
-    public static int getTaskIndex(String input) throws JohnException {
+    private static int getTaskIndex(String input) throws JohnException {
         String[] parts = input.split(" ");
         if (parts.length < 2) {
-            throw new JohnException("OOPS!!! Please specify which task to mark.");
+            throw new JohnException("OOPS!!! Please specify which task.");
         }
         try {
             return Integer.parseInt(parts[1]) - 1;
@@ -17,14 +42,14 @@ public class Parser {
         }
     }
 
-    public static String getTodoDescription(String input) throws JohnException {
+    private static String getTodoDescription(String input) throws JohnException {
         if (input.trim().equals("todo")) {
             throw new JohnException("OOPS!!! The description of a todo cannot be empty.");
         }
         return input.substring(5).trim();
     }
 
-    public static String[] parseDeadline(String input) throws JohnException {
+    private static String[] parseDeadline(String input) throws JohnException {
         if (input.trim().equals("deadline")) {
             throw new JohnException("OOPS!!! The description of a deadline cannot be empty.");
         }
@@ -44,7 +69,7 @@ public class Parser {
         return new String[]{description, by};
     }
 
-    public static String[] parseEvent(String input) throws JohnException {
+    private static String[] parseEvent(String input) throws JohnException {
         if (input.trim().equals("event")) {
             throw new JohnException("OOPS!!! The description of an event cannot be empty.");
         }
