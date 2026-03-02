@@ -99,11 +99,11 @@ public class Storage {
             type = "T";
         } else if (task instanceof Deadline) {
             type = "D";
-            details = " | " + ((Deadline) task).getBy();
+            details = " | " + ((Deadline) task).getBy(); // LocalDate will be converted to yyyy-MM-dd format
         } else if (task instanceof Event) {
             type = "E";
             Event event = (Event) task;
-            details = " | " + event.getFrom() + " | " + event.getTo();
+            details = " | " + event.getFrom() + " | " + event.getTo(); // LocalDate will be converted to yyyy-MM-dd format
         } else {
             type = "T"; // Default
         }
