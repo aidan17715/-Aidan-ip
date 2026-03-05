@@ -25,6 +25,9 @@ public class Parser {
         } else if (input.startsWith("event")) {
             String[] parts = parseEvent(input);
             return new EventCommand(parts[0], parts[1], parts[2]);
+        } else if (input.startsWith("find ")) {
+            String keyword = getFindKeyword(input);
+            return new FindCommand(keyword);
         } else {
             throw new JohnException("OOPS!!! I'm sorry, but I don't know what that means :-(");
         }
@@ -89,5 +92,12 @@ public class Parser {
             throw new JohnException("OOPS!!! The event time cannot be empty.");
         }
         return new String[]{description, from, to};
+    }
+
+    private static String getFindKeyword(String input) throws JohnException {
+        if (input.trim().equals("find")) {
+            throw new JohnException("OOPS!!! Please specify a keyword to search for.");
+        }
+        return input.substring(5).trim();
     }
 }
