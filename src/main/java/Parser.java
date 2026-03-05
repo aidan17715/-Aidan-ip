@@ -1,5 +1,15 @@
+/**
+ * Parses user commands and creates appropriate Command objects.
+ */
 public class Parser {
     
+    /**
+     * Parses the user's input command and returns the corresponding Command object.
+     *
+     * @param fullCommand The full command string entered by the user.
+     * @return The Command object representing the user's command.
+     * @throws JohnException If the command is invalid or incomplete.
+     */
     public static Command parse(String fullCommand) throws JohnException {
         String input = fullCommand.trim();
         
@@ -33,6 +43,13 @@ public class Parser {
         }
     }
 
+    /**
+     * Extracts the task index from a command string.
+     *
+     * @param input The command string containing the task number.
+     * @return The task index (0-based).
+     * @throws JohnException If the task number is missing or invalid.
+     */
     private static int getTaskIndex(String input) throws JohnException {
         String[] parts = input.split(" ");
         if (parts.length < 2) {
@@ -45,6 +62,13 @@ public class Parser {
         }
     }
 
+    /**
+     * Extracts the description from a todo command.
+     *
+     * @param input The todo command string.
+     * @return The todo description.
+     * @throws JohnException If the description is empty.
+     */
     private static String getTodoDescription(String input) throws JohnException {
         if (input.trim().equals("todo")) {
             throw new JohnException("OOPS!!! The description of a todo cannot be empty.");
@@ -52,6 +76,13 @@ public class Parser {
         return input.substring(5).trim();
     }
 
+    /**
+     * Parses a deadline command into description and due date.
+     *
+     * @param input The deadline command string.
+     * @return An array containing [description, by date].
+     * @throws JohnException If the command format is invalid.
+     */
     private static String[] parseDeadline(String input) throws JohnException {
         if (input.trim().equals("deadline")) {
             throw new JohnException("OOPS!!! The description of a deadline cannot be empty.");
@@ -72,6 +103,13 @@ public class Parser {
         return new String[]{description, by};
     }
 
+    /**
+     * Parses an event command into description, start date, and end date.
+     *
+     * @param input The event command string.
+     * @return An array containing [description, from date, to date].
+     * @throws JohnException If the command format is invalid.
+     */
     private static String[] parseEvent(String input) throws JohnException {
         if (input.trim().equals("event")) {
             throw new JohnException("OOPS!!! The description of an event cannot be empty.");
@@ -94,6 +132,13 @@ public class Parser {
         return new String[]{description, from, to};
     }
 
+    /**
+     * Extracts the search keyword from a find command.
+     *
+     * @param input The find command string.
+     * @return The search keyword.
+     * @throws JohnException If no keyword is provided.
+     */
     private static String getFindKeyword(String input) throws JohnException {
         if (input.trim().equals("find")) {
             throw new JohnException("OOPS!!! Please specify a keyword to search for.");

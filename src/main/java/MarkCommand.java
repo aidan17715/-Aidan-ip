@@ -1,10 +1,26 @@
+/**
+ * Represents a command to mark a task as done.
+ */
 public class MarkCommand extends Command {
     private int taskIndex;
     
+    /**
+     * Creates a new mark command for the specified task.
+     *
+     * @param taskIndex The index of the task to mark as done (0-based).
+     */
     public MarkCommand(int taskIndex) {
         this.taskIndex = taskIndex;
     }
     
+    /**
+     * Executes the command to mark a task as done.
+     *
+     * @param tasks The task list containing the task to mark.
+     * @param ui The UI to display messages.
+     * @param storage The storage to save the updated task list.
+     * @throws JohnException If an error occurs during saving.
+     */
     @Override
     public void execute(TaskList tasks, Ui ui, Storage storage) throws JohnException {
         Task task = tasks.getTask(taskIndex);

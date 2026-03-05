@@ -4,13 +4,27 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
+/**
+ * Handles loading and saving tasks to a file.
+ */
 public class Storage {
     private String filePath;
 
+    /**
+     * Creates a new Storage instance with the specified file path.
+     *
+     * @param filePath The path to the file where tasks will be stored.
+     */
     public Storage(String filePath) {
         this.filePath = filePath;
     }
 
+    /**
+     * Loads tasks from the storage file.
+     *
+     * @return An ArrayList of tasks loaded from the file.
+     * @throws JohnException If an error occurs while reading from the file.
+     */
     public ArrayList<Task> load() throws JohnException {
         ArrayList<Task> tasks = new ArrayList<>();
         File file = new File(filePath);
@@ -36,6 +50,12 @@ public class Storage {
         return tasks;
     }
 
+    /**
+     * Parses a line from the storage file into a Task object.
+     *
+     * @param line The line to parse.
+     * @return The parsed Task, or null if the line is corrupted.
+     */
     private Task parseTask(String line) {
         try {
             String[] parts = line.split(" \\| ");
@@ -76,6 +96,12 @@ public class Storage {
         }
     }
 
+    /**
+     * Saves the list of tasks to the storage file.
+     *
+     * @param tasks The ArrayList of tasks to save.
+     * @throws JohnException If an error occurs while writing to the file.
+     */
     public void save(ArrayList<Task> tasks) throws JohnException {
         try {
             File file = new File(filePath);
@@ -91,6 +117,12 @@ public class Storage {
         }
     }
 
+    /**
+     * Formats a task into a string for storage.
+     *
+     * @param task The task to format.
+     * @return A formatted string representation of the task.
+     */
     private String formatTask(Task task) {
         String type;
         String details = "";
