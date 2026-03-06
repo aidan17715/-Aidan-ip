@@ -1,5 +1,6 @@
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 
 /**
  * Represents an event task with a start and end date.
@@ -15,11 +16,16 @@ public class Event extends Task {
      * @param description The description of the event.
      * @param from The start date in yyyy-mm-dd format.
      * @param to The end date in yyyy-mm-dd format.
+     * @throws JohnException If the date format is invalid.
      */
-    public Event(String description, String from, String to) {
+    public Event(String description, String from, String to) throws JohnException {
         super(description);
-        this.from = LocalDate.parse(from);
-        this.to = LocalDate.parse(to);
+        try {
+            this.from = LocalDate.parse(from);
+            this.to = LocalDate.parse(to);
+        } catch (DateTimeParseException e) {
+            throw new JohnException("OOPS!!! Invalid date format. Please use yyyy-mm-dd format.");
+        }
     }
 
     /**

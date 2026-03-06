@@ -74,12 +74,20 @@ public class Storage {
                 break;
             case "D":
                 if (parts.length >= 4) {
-                    task = new Deadline(description, parts[3]);
+                    try {
+                        task = new Deadline(description, parts[3]);
+                    } catch (JohnException e) {
+                        return null; // Invalid date format, skip this task
+                    }
                 }
                 break;
             case "E":
                 if (parts.length >= 5) {
-                    task = new Event(description, parts[3], parts[4]);
+                    try {
+                        task = new Event(description, parts[3], parts[4]);
+                    } catch (JohnException e) {
+                        return null; // Invalid date format, skip this task
+                    }
                 }
                 break;
             default:

@@ -25,7 +25,7 @@ public class EventCommand extends Command {
      * @param tasks The task list to add the event to.
      * @param ui The UI to display messages.
      * @param storage The storage to save the updated task list.
-     * @throws JohnException If an error occurs during saving.
+     * @throws JohnException If an error occurs during saving or if the date format is invalid.
      */
     @Override
     public void execute(TaskList tasks, Ui ui, Storage storage) throws JohnException {

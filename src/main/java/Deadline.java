@@ -1,5 +1,6 @@
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 
 /**
  * Represents a deadline task with a due date.
@@ -13,10 +14,15 @@ public class Deadline extends Task {
      *
      * @param description The description of the deadline task.
      * @param by The due date in yyyy-mm-dd format.
+     * @throws JohnException If the date format is invalid.
      */
-    public Deadline(String description, String by) {
+    public Deadline(String description, String by) throws JohnException {
         super(description);
-        this.by = LocalDate.parse(by);
+        try {
+            this.by = LocalDate.parse(by);
+        } catch (DateTimeParseException e) {
+            throw new JohnException("OOPS!!! Invalid date format. Please use yyyy-mm-dd format.");
+        }
     }
 
     /**
